@@ -63,7 +63,7 @@ void CompositeShape::scale(double k) {
     }
 }
 void CompositeShape::print() const {
-    std::cout << '[' << "COMPOSITE" << ", " << "(" << getCenter().x_ << ", " 
+    std::cout << '[' << "COMPOSITE" << ", " << "(" << getCenter().x_ << ", "
         << std::setprecision(2) << getCenter().y_ << ")"
         << ", " << getArea() << ":\n";
     for (size_t i = 0; i < shapes_.size(); ++i) {
