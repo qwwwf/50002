@@ -7,7 +7,7 @@
 
 class CompositeShape : public Shape {
 public:
-    void addShape(std::shared_ptr<Shape> shape);
+    void addShape(std::unique_ptr<Shape> shape);
 
     double getArea() const override;
     Point getCenter() const override;
@@ -16,10 +16,10 @@ public:
     void scale(double k) override;
 
     std::string getName() const override;
-    const std::vector<std::shared_ptr<Shape>>& getShapes() const;
+    const std::vector<std::unique_ptr<Shape>>& getShapes() const;
 
 private:
-    std::vector<std::shared_ptr<Shape>> shapes;
+    std::vector<std::unique_ptr<Shape>> shapes;
 };
 
 #endif //COMPOSITESHAPE_H

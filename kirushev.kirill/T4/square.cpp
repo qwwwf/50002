@@ -7,8 +7,8 @@ double Square::getArea() const {
 
 Point Square::getCenter() const {
     return Point(
-        (bottomLeft_.x + sideLength_) / 2,
-        (bottomLeft_.y + sideLength_) / 2
+        bottomLeft_.x + sideLength_ / 2,
+        bottomLeft_.y + sideLength_ / 2
     );
 }
 

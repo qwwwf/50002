@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include "compositeShape.h"
 
-void CompositeShape::addShape(std::shared_ptr<Shape> shape) {
+void CompositeShape::addShape(std::unique_ptr<Shape> shape) {
     shapes.push_back(std::move(shape));
 }
 
@@ -15,13 +15,16 @@ double CompositeShape::getArea() const {
 }
 
 Point CompositeShape::getCenter() const {
+    if (shapes.empty()) {
+        throw std::invalid_argument("The shape is empty.");
+    }
+
     double minX = std::numeric_limits<double>::max();
     double maxX = std::numeric_limits<double>::lowest();
     double minY = std::numeric_limits<double>::max();
     double maxY = std::numeric_limits<double>::lowest();
 
-    for (const auto& shape : shapes)
-    {
+    for (const auto& shape : shapes) {
         Point c = shape->getCenter();
 
         if (c.x < minX) minX = c.x;
@@ -30,11 +33,7 @@ Point CompositeShape::getCenter() const {
         if (c.y > maxY) maxY = c.y;
     }
 
-    Point center;
-    center.x = (minX + maxX) / 2;
-    center.y = (minY + maxY) / 2;
-
-    return center;
+    return Point{(minX + maxX) / 2, (minY + maxY) / 2};
 }
 
 void CompositeShape::move(const double dx, const double dy) {
@@ -50,8 +49,7 @@ void CompositeShape::scale(const double k) {
 
     Point center = getCenter();
 
-    for (const auto& shape : shapes)
-    {
+    for (const auto& shape : shapes) {
         Point c = shape->getCenter();
 
         double dx = (c.x - center.x) * (k - 1);
@@ -66,6 +64,6 @@ std::string CompositeShape::getName() const {
     return "COMPOSITE";
 }
 
-const std::vector<std::shared_ptr<Shape>>& CompositeShape::getShapes() const {
+const std::vector<std::unique_ptr<Shape>>& CompositeShape::getShapes() const {
     return shapes;
 }
