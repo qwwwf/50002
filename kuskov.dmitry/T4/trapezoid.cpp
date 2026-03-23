@@ -40,3 +40,4 @@ void Trapezoid::getBox(float &xmin, float &ymin, float &xmax, float &ymax) const
         ymin = left_.y_;
         ymin = left_.y_ + height_;
 }
+

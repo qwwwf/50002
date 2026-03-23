@@ -22,7 +22,7 @@ void printShape(const Shape& shape, int indent = 0)
             if (i != comp.getShapes().size() - 1) std::cout << ",\n";
             else std::cout << "\n";
         }
-        std::cout << std::string(indent, ' ') << "]";
+        std::cout << std::string(indent, ' ') << "]\n";
     } 
     else 
     {

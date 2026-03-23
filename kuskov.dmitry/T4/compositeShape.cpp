@@ -91,3 +91,4 @@ void CompositeShape::getBox(float &xmin, float &ymin, float &xmax, float &ymax) 
         ymax = std::max(ymax, newymax);
     }
 }
+

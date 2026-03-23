@@ -27,3 +27,4 @@ class Trapezoid : public Shape
    void getBox(float &xmin, float &ymin, float  &xmax, float &ymax) const override;
 };
 #endif
+

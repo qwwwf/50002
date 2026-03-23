@@ -30,3 +30,4 @@ struct Point
     }
 };
 #endif
+

@@ -29,3 +29,4 @@ class CompositeShape : public Shape
     std::vector<std::unique_ptr<Shape>> shapes_;
 };
 #endif
+
