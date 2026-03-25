@@ -35,5 +35,5 @@ public:
 
 
 };
-#endif Ring
+#endif // Ring
 

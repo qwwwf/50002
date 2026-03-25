@@ -20,4 +20,5 @@ struct Point
     }
 };
 
-#endif POINT_H
+#endif
+
