@@ -80,70 +80,40 @@ namespace structs {
         if (!sentry) {
             return in;
         }
-        std::string mantissaStr;
-        bool isNegative = false;
-        char firstChar = in.peek();
-        if (firstChar == '-') {
-            isNegative = true;
-            in.ignore();
+        int BeforPoint = 0;
+        if (!(in >> BeforPoint)) {
+            return in;
         }
-        else if (firstChar == '+') {
-            in.ignore();
-        }
-        char symbol;
-        bool hasDecimalPoint = false;
-        bool hasExponent = false;
-        bool hasDigitBefore = false;
-        bool hasDigitAfter = false;
-        while (in.get(symbol)) {
-            if (std::isdigit(symbol)) {
-                mantissaStr += symbol;
-                if (!hasDecimalPoint) {
-                    hasDigitBefore = true;
-                }
-                else {
-                    hasDigitAfter = true;
-                }
-            }
-            else if (symbol == '.' && !hasDecimalPoint) {
-                mantissaStr += symbol;
-                hasDecimalPoint = true;
-            }
-            else if (symbol == 'e' || symbol == 'E') {
-                hasExponent = true;
-                break;
-            }
-            else {
-                in.setstate(std::ios::failbit);
-                return in;
-            }
-        }
-        if (!hasDecimalPoint || !hasDigitBefore || !hasDigitAfter || !hasExponent) {
+        char dot = '0';
+        if (in.peek() != '.') {
             in.setstate(std::ios::failbit);
             return in;
         }
-        char exponentSign = '+';
-        int exponent = 0;
-        char next = in.peek();
-        if (next == '+' || next == '-') {
-            in.get(exponentSign);
+        in.get(dot);
+        if (!isdigit(in.peek())) {
+            in.setstate(std::ios::failbit);
+            return in;
         }
+        int digitCount = 0;
+        int after = 0;
+        while (isdigit(in.peek())) {
+            after = after * 10 + (in.get() - '0');
+            ++digitCount;
+        }
+        char e = in.peek();
+        if (e != 'e' && e != 'E') {
+            in.setstate(std::ios::failbit);
+            return in;
+        }
+        in.ignore();
+        int exponent = 0;
         if (!(in >> exponent)) {
             in.setstate(std::ios::failbit);
             return in;
         }
-        double mantissa = std::stod(mantissaStr);
-        int finalExponent = 0;
-        if (exponentSign == '-') {
-            finalExponent = -exponent;
-        }
-        else {
-            finalExponent = exponent;
-        }
-        dest.ref = mantissa * std::pow(10.0, finalExponent);
-        if (isNegative) {
-            dest.ref = -dest.ref;
-        }
+        double sign = (BeforPoint < 0) ? -1.0 : 1.0;
+        double mantissa = std::abs(BeforPoint) + (after / std::pow(10.0, digitCount));
+        dest.ref = mantissa * std::pow(10.0, exponent);
         return in;
     }
     std::ostream& operator<<(std::ostream& out, const DataStruct& src) {
