@@ -3,6 +3,7 @@
 #include <fstream>
 #include <algorithm>
 #include <limits>
+#include <iterator>
 #include "Structs.h"
 
 // Variant №9 (key1: [SLL LIT]; key2: [CMP LSP])
